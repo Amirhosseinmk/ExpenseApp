@@ -1,9 +1,11 @@
-import React, { useLayoutEffect } from "react";
+import React, { useContext, useLayoutEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import ButtonIcons from "../components/UI/Icon";
 import Button from "../components/UI/Button"
+import ExpenseContex from ".../"
 
-export default function ManageExpense({ route, navigation }) {
+export default function ManageExpense({ route, navigation }) { 
+  const expenseCtx = useContext(ExpenseContex)
   const editedExpenseId = route.params?.expenseId;
   const isEditing = !!editedExpenseId;
   function deleteExpenseHandler() {

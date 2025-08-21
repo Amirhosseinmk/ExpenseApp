@@ -1,21 +1,20 @@
-import React from "react";
+import React, { useContext } from "react";
 import { View, Text , StyleSheet} from "react-native"
 import ExpensesOutput from "../components/ExpensesShare/ExpensesOutput";
-
-
+import { ExpenseContex } from "../../contex/ExpenseCtx";
+import calculateDay from "../unit/time"
 
 
 export default function RecentExpense(){
-    const today = new Date()
-    const day = today.getDate()
-    const month = today.getMonth()
-    const year = today.getFullYear()
-    const last7Days = day + 7;
-    if (last7Days > 30 || last7Days > 31) {
-        month = month + 1
-    }
+    
+    const expenseCtx = useContext(ExpenseContex)
+    const recentExpenses = expenseCtx.expense.filter((expense) => {
+        const today = new Date();
+        const lastSevenDay = calculateDay(today,7)
+    return expense.date > lastSevenDay
+    })
     return(
-        <ExpensesOutput period={"Last 7 days"} />
+        <ExpensesOutput expenses={recentExpenses} period={"Last 7 days"} />
     )
 }
 
