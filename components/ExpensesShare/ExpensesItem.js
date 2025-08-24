@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import getFormatedDate from "../../unit/time";
+import {getFormatedDate} from "../../unit/time";
 import { useNavigation } from "@react-navigation/native";
 
 

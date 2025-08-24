@@ -5,6 +5,7 @@ export default function ExpensesSummery({onPeriod, expenses }){
     const Totall = expenses.reduce((sum,expense) => {
         return sum + expense.amount 
     },0)
+    
     return(
         <View style={styles.container}>
             <Text style={styles.period}>

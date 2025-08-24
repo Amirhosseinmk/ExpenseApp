@@ -1,74 +1,4 @@
-import { createContext, useContext, useReducer } from "react";
-
-
-
-
-export const ExpenseContex = useContext({
-    expense:[],
-    deleteExpense:(id) => {},
-    updateExpense:(id , { description , amount , date }) => {},
-    addExpense:({description , amount , date} ) => {}
-})
-
-function expenseReducer(currentState, action){
-    switch (action.type){
-        case 'ADD':
-        const new_id_generated = new Date().toString() + Math.random().toString();
-        const Expense = [{...action.payload, id:new_id_generated }, ...currentState]
-            return Expense
-            
-        case 'DELETE':
-            const foundingExpense = currentState.filter((expense) => expense.id !== action.payload)
-            return foundingExpense
-        case 'UPDATE':
-                                //             const currentState = [
-                                //   { id: "e1", title: "Book",   amount: 20 },
-                                //   { id: "e2", title: "Shoes",  amount: 50 },
-                                //   { id: "e3", title: "Coffee", amount: 5  },
-                                                // ];
-            const foundIndexExpense = currentState.findIndex( (expense) => {expense.id === payload.id}); 
-            //for example we looking for id:e2 to change with new info which has id:e2 as well. like:  const action = {
-            //   type: "UPDATE",
-            //   payload: {
-            //     id: "e2",
-            //     expenseData: { title: "Running Shoes", amount: 70 }
-                     //   }
-                     // };
-            const foundedExpense = currentState[foundIndexExpense];
-               // { id: "e2", title: "Shoes", amount: 50 }
-            const newExpense = [...foundedExpense,...action.payload.expenseData]
-//             newExpense becomes:
-// {
-//   id: "e2",                 // kept from old
-//   title: "Running Shoes",   // overwritten
-//   amount: 70                // overwritten
-// }
-// 
-            const oldArrayOfExpense = [...currentState]
-                /*  Copy the whole list (so we don’t touch the original)
-[
-  { id: "e1", title: "Book",   amount: 20 },
-  { id: "e2", title: "Shoes",  amount: 50 },
-  { id: "e3", title: "Coffee", amount: 5  },
-]
-*/
-            oldArrayOfExpense[foundIndexExpense] = newExpense
-            /*
-[
-  { id: "e1", title: "Book",           amount: 20 },
-  { id: "e2", title: "Running Shoes",  amount: 70 }, // replaced!
-  { id: "e3", title: "Coffee",         amount: 5  },
-]
-*/
-            return newExpense
-            
-        default:
-            return currentState
-        
-    }
-
-}
-
+import { createContext, useReducer } from "react";
 const Dummy_data = [
     {
       id: "1",
@@ -105,12 +35,82 @@ const Dummy_data = [
 
 
 
+export const ExpenseContext = createContext({
+    expense:[],
+    deleteExpense:(id) => {},
+    updateExpense:(id , { description , amount , date }) => {},
+    addExpense:({description , amount , date} ) => {}
+})
+
+function expenseReducer(currentState, action){
+    switch (action.type){
+        case 'ADD':
+        const new_id_generated = new Date().toString() + Math.random().toString();
+        const Expense = [{...action.payload, id:new_id_generated }, ...currentState]
+            return Expense
+            
+        case 'DELETE':
+            const foundingExpense = currentState.filter((expense) => expense.id !== action.payload)
+            return foundingExpense
+        case 'UPDATE':
+                                //             const currentState = [
+                                //   { id: "e1", title: "Book",   amount: 20 },
+                                //   { id: "e2", title: "Shoes",  amount: 50 },
+                                //   { id: "e3", title: "Coffee", amount: 5  },
+                                                // ];
+            const foundIndexExpense = currentState.findIndex( (expense) => expense.id === action.payload.id); 
+            //for example we looking for id:e2 to change with new info which has id:e2 as well. like:  const action = {
+            //   type: "UPDATE",
+            //   payload: {
+            //     id: "e2",
+            //     expenseData: { title: "Running Shoes", amount: 70 }
+                     //   }
+                     // };
+            const foundedExpense = currentState[foundIndexExpense];
+               // { id: "e2", title: "Shoes", amount: 50 }
+            const newExpense = {...foundedExpense,...action.payload.data}
+//             newExpense becomes:
+// {
+//   id: "e2",                 // kept from old
+//   title: "Running Shoes",   // overwritten
+//   amount: 70                // overwritten
+// }
+// 
+            const oldArrayOfExpense = [...currentState]
+                /*  Copy the whole list (so we don’t touch the original)
+[
+  { id: "e1", title: "Book",   amount: 20 },
+  { id: "e2", title: "Shoes",  amount: 50 },
+  { id: "e3", title: "Coffee", amount: 5  },
+]
+*/
+            oldArrayOfExpense[foundIndexExpense] = newExpense
+            /*
+[
+  { id: "e1", title: "Book",           amount: 20 },
+  { id: "e2", title: "Running Shoes",  amount: 70 }, // replaced!
+  { id: "e3", title: "Coffee",         amount: 5  },
+]
+*/
+            return oldArrayOfExpense
+            
+        default:
+            return currentState
+        
+    }
+
+}
 
 
 
 
 
-function ExpenseProvider({children}){
+
+
+
+
+
+export default function ExpenseContextProvider({children}){
     
     const [expenseState, dispatch] = useReducer(expenseReducer, Dummy_data)
     function addExpense(expenseData){
@@ -122,8 +122,14 @@ function ExpenseProvider({children}){
     function deleteExpense(id){
     dispatch({type:'DELETE', payload:id})
 }
+const value = {
+  expense:expenseState,
+  addExpense:addExpense,
+  updateExpense:updateExpense,
+  deleteExpense:deleteExpense,
+}
 
     return (
-        <ExpenseContex.Provider>{children}</ExpenseContex.Provider>
+        <ExpenseContext.Provider value={value}>{children}</ExpenseContext.Provider>
     )
 }

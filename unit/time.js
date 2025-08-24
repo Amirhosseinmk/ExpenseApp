@@ -1,8 +1,8 @@
-export default function getFormatedDate(date){
+export function getFormatedDate(date){
     return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
 }
 
 
-export default function calculateDay(currentDay,day){
-    return new Date(date.getFullYear(), date.getMonth() , date.getDate() - day)
+export function calculateDay(currentDay,day){
+    return new Date(currentDay.getFullYear(), currentDay.getMonth() , currentDay.getDate() - day)
 }

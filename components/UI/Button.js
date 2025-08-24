@@ -4,7 +4,7 @@ import { View,Pressable,Text,StyleSheet } from "react-native"
 
 export default function Button({onPress, children,mode}){
     return(
-       <View>
+       <View style={{flex:1}}>
         <Pressable onPress={onPress} style={({pressed}) => pressed && styles.pressed}>
             <View style={[styles.button, mode==='flat' && styles.flat]}>
                 <Text style={[styles.buttonText, mode === 'flat' && styles.flatText]}>
@@ -22,7 +22,8 @@ export default function Button({onPress, children,mode}){
 const styles = StyleSheet.create({
     button:{
         borderRadius:4,
-        padding:8,
+        paddingHorizontal:27,
+        paddingVertical:10,
         backgroundColor:"#3e04c3"
     },
     flat:{
