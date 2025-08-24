@@ -19,7 +19,6 @@ export default function ManageExpense({ route, navigation }) {
 
   function confirmationHandler(Data) {
     if (isEditing) {
-      storeExpense(Data,editedExpenseId)
       expenseCtx.updateExpense(editedExpenseId,Data);
     } else {
       storeExpense(Data)

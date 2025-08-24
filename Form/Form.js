@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Keyboard } from "react-native";
 import ButtonForm from "./ButtonForm";
 import Button from "../components/UI/Button"
-import { getFormatedDate } from "../unit/time";
+import { getFormattedDate } from "../unit/time";
 
 export default function Form({onCancel, onSubmit,HandleBtwAddAndUpdate,preFilled}) {
   const [value, setValue] = useState({
     amount: preFilled ? preFilled.amount.toString() : '',
-    date: preFilled ? getFormatedDate(preFilled.date) : '',
+    date: preFilled ? getFormattedDate(preFilled.date) : '',
     description: preFilled ? preFilled.description : '',
   });
 
@@ -20,7 +20,7 @@ export default function Form({onCancel, onSubmit,HandleBtwAddAndUpdate,preFilled
 
   function submitHandler(){
     const [year, month , day] = value.date.split("-");
-    const localDate = new Date(+year, +month , +day)
+    const localDate = new Date(+year, +month - 1 , +day)
     const Data = {
       amount: +value.amount,
       date:localDate,

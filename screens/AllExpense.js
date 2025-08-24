@@ -9,7 +9,7 @@ import { ExpenseContext } from "../contex/ExpenseCtx";
 export default function AllExpense(){
      const expensesCtx = useContext(ExpenseContext);
     return(
-        <ExpensesOutput expenses={expensesCtx.expense} period={"Total"} fallbackText={"No registered expenses found"}/> 
+        <ExpensesOutput expenses={expensesCtx.expense} Period={"Total"} fallbackText={"No registered expenses found"}/> 
     )
 }
 

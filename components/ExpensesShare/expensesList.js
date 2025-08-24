@@ -3,7 +3,7 @@ import React from "react";
 import { View, Text, FlatList } from "react-native";
 import ExpensesItem from "./ExpensesItem";
 
-export default function ExpensesList({ expenses }) {
+export default function ExpensesList({ expenses}) {
   function functionHandler(itemData) {
     return (
       <ExpensesItem
@@ -11,6 +11,7 @@ export default function ExpensesList({ expenses }) {
         date={itemData.item.date}
         amount={itemData.item.amount}
         id={itemData.item.id}
+      
       />
     );
   }

@@ -1,37 +1,4 @@
 import { createContext, useReducer } from "react";
-const Dummy_data = [
-    {
-      id: "1",
-      description: "Tshirt",
-      amount: 450.99,
-      date: new Date(2025, 11, 9),
-    },
-    {
-      id: "2",
-      description: "board game",
-      amount: 54.8,
-      date: new Date(2025,5,12),
-    },
-    {
-      id: "3",
-      description: "Camera",
-      amount: 400,
-      date: new Date(2022,2,1),
-    },
-    {
-      id: "4",
-      description: "Pizza",
-      amount: 12,
-      date: new Date(2019,10,1),
-    },
-    {
-      id: "5",
-      description: "Shirt",
-      amount: 40.57,
-      date: new Date(2025,3,9),
-    },
-  ];
-
 
 
 
@@ -39,11 +6,14 @@ export const ExpenseContext = createContext({
     expense:[],
     deleteExpense:(id) => {},
     updateExpense:(id , { description , amount , date }) => {},
+    setExpenses:(expense) => {},
     addExpense:({description , amount , date} ) => {}
 })
 
 function expenseReducer(currentState, action){
     switch (action.type){
+        case 'SET':
+          return action.payload
         case 'ADD':
         const new_id_generated = new Date().toString() + Math.random().toString();
         const Expense = [{...action.payload, id:new_id_generated }, ...currentState]
@@ -112,7 +82,7 @@ function expenseReducer(currentState, action){
 
 export default function ExpenseContextProvider({children}){
     
-    const [expenseState, dispatch] = useReducer(expenseReducer, Dummy_data)
+    const [expenseState, dispatch] = useReducer(expenseReducer, [])
     function addExpense(expenseData){
     dispatch({type:'ADD' , payload:expenseData})
 }
@@ -122,9 +92,13 @@ export default function ExpenseContextProvider({children}){
     function deleteExpense(id){
     dispatch({type:'DELETE', payload:id})
 }
+    function setExpenses(expense){
+    dispatch({type:'SET', payload:expense})
+}
 const value = {
   expense:expenseState,
   addExpense:addExpense,
+  setExpenses:setExpenses,
   updateExpense:updateExpense,
   deleteExpense:deleteExpense,
 }
